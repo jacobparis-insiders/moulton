@@ -4,11 +4,13 @@
   "type": "module",
   "scripts": {
     "build": "remix build --sourcemap",
+    "setup": "prisma generate && prisma migrate deploy",
     "dev": "remix dev -c \"node ./server/dev-server.js\" --manual",
     "start": "remix-serve build",
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@prisma/client": "^5.1.1",
     "@remix-run/css-bundle": "^1.19.2",
     "@remix-run/node": "^1.19.2",
     "@remix-run/react": "^1.19.2",
