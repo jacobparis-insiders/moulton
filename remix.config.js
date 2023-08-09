@@ -2,6 +2,7 @@
 export default {
   ignoredRouteFiles: ["**/.*"],
   tailwind: true,
+  postcss: true,
   serverModuleFormat: "esm",
   future: {
     v2_dev: true,
