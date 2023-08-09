@@ -17,6 +17,9 @@ import {
 import { useMemo } from "react"
 import { ExternalLink } from "./components/ExternalLink.tsx"
 
+const title = "Moulton"
+const description = "A Remix Newsletter"
+
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: tailwindCssHref },
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
@@ -31,9 +34,14 @@ export const links: LinksFunction = () => [
 ]
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
-  {
-    title: "Moulton",
-  },
+  { title },
+  { name: "og:title", content: title },
+  { name: "description", content: description },
+  { name: "og:description", content: description },
+  { name: "og:image", content: "https://www.readmoulton.com/og.png" },
+  { name: "og:url", content: "https://www.readmoulton.com" },
+  { name: "twitter:card", content: "summary_large_image" },
+  { name: "twitter:site", content: "@readmoulton" },
 ]
 
 export async function loader({ request }: LoaderArgs) {
