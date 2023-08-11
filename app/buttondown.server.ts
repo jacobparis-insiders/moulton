@@ -7,7 +7,7 @@ const userSchema = z.object({
   email: z.string(),
   notes: z.string(),
   metadata: z.object({
-    name: z.string().nullable(),
+    name: z.string().optional(),
   }),
   tags: z.array(z.string()),
   referrer_url: z.string(),
