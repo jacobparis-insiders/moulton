@@ -1,6 +1,11 @@
 // http://localhost:3000/subscribe/success
 
-import { redirect, type LoaderArgs, json , type ActionArgs } from "@remix-run/node"
+import {
+  redirect,
+  type LoaderArgs,
+  json,
+  type ActionArgs,
+} from "@remix-run/node"
 import { Form, useActionData } from "@remix-run/react"
 import { authenticator } from "~/auth.server.ts"
 import { getSubscriber, resendConfirmationEmail } from "~/buttondown.server.ts"
@@ -74,6 +79,7 @@ export default function SubscribeSuccess() {
               {actionData?.status !== "success" ? (
                 <Form
                   method="POST"
+                  reloadDocument
                   className="inline text-sky-400 hover:text-sky-500 hover:underline"
                 >
                   <button> request another email </button>

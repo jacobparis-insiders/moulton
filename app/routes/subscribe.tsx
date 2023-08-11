@@ -5,11 +5,10 @@ import { parse } from "@conform-to/zod"
 import { json, redirect } from "@remix-run/node"
 import { Form, useActionData } from "@remix-run/react"
 import dotStylesheetHref from "~/styles/dot.css"
-import type { ActionArgs, LinksFunction , LoaderArgs } from "@remix-run/node"
+import type { ActionArgs, LinksFunction, LoaderArgs } from "@remix-run/node"
 
 import { z } from "zod"
 import { authenticator } from "~/auth.server.ts"
-
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: dotStylesheetHref },
@@ -61,6 +60,7 @@ export function SubscribeForm() {
 
   return (
     <Form
+      reloadDocument
       action="/subscribe"
       method="post"
       className="sm:mx-auto lg:mx-0 min-w-[20rem] bg-glass px-8 py-4 border-slate-700 border rounded-lg overflow-hidden"
