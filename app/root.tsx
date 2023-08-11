@@ -1,9 +1,12 @@
+// http://localhost:3000/
+
 import { cssBundleHref } from "@remix-run/css-bundle"
 import tailwindCssHref from "~/styles/tailwind.css"
-import type {
-  LinksFunction,
-  V2_MetaFunction,
-  LoaderArgs,
+import {
+  type LinksFunction,
+  type V2_MetaFunction,
+  type LoaderArgs,
+  json,
 } from "@remix-run/node"
 import {
   Link,
@@ -13,9 +16,15 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useRouteLoaderData,
 } from "@remix-run/react"
 import { useMemo } from "react"
 import { ExternalLink } from "./components/ExternalLink.tsx"
+import { authenticator } from "./auth.server.ts"
+import { getSubscriber } from "./buttondown.server.ts"
+
+import type { ShouldRevalidateFunction } from "@remix-run/react"
+import invariant from "tiny-invariant"
 
 const title = "Moulton"
 const description = "A Remix Newsletter"
@@ -45,7 +54,31 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
 ]
 
 export async function loader({ request }: LoaderArgs) {
-  return null
+  const user = await authenticator.isAuthenticated(request)
+
+  if (!user) {
+    throw authenticator.logout(request, { redirectTo: "/" })
+  }
+
+  const subscriber = await getSubscriber({ email: user.email })
+  if (subscriber.code !== "success") {
+    throw authenticator.logout(request, { redirectTo: "/" })
+  }
+
+  return json({
+    user: user,
+    subscriber: {
+      type: subscriber.data.subscriber_type,
+    },
+  })
+}
+
+export const shouldRevalidate: ShouldRevalidateFunction = () => false
+
+export function useRootLoaderData() {
+  const data = useRouteLoaderData<typeof loader>("root")
+  invariant(data, "Expected data to be defined")
+  return data
 }
 
 export default function App() {

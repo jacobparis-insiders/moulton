@@ -5,13 +5,18 @@ import dotStylesheetHref from "~/styles/dot.css"
 import type { LinksFunction } from "@remix-run/node"
 
 import { ExternalLink } from "~/components/ExternalLink.tsx"
-import { SubscribeForm } from "./subscribed.tsx"
+import { SubscribeForm } from "./subscribe.tsx"
+
+import { useRootLoaderData } from "~/root.tsx"
+import { Link } from "@remix-run/react"
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: dotStylesheetHref },
 ]
 
 export default function Index() {
+  const { user, subscriber } = useRootLoaderData()
+
   return (
     <div className="bg-gray-900  text-white pt-10 sm:pt-16 lg:pt-8 lg:pb-14">
       <div className="mx-auto max-w-7xl px-8">
@@ -72,9 +77,63 @@ export default function Index() {
                 </div>
               </div>
 
-              <div className="relative pl-12">
-                <SubscribeForm />
-              </div>
+              {user ? (
+                <div className="relative">
+                  <div className="sm:mx-auto lg:mx-0 min-w-[20rem] bg-glass px-8 py-4 border-slate-700 border rounded-lg overflow-hidden">
+                    {subscriber.type === "regular" ? (
+                      <>
+                        <h2 className="text-2xl font-bold">
+                          You&rsquo;re subscribed!
+                        </h2>
+                        <p className="mt-2">
+                          When the next newsletter is ready, it'll be sent to{" "}
+                          <strong>{user.email}</strong>
+                        </p>
+                      </>
+                    ) : subscriber.type === "unactivated" ? (
+                      <>
+                        <h2 className="text-2xl font-bold">
+                          Check your email!
+                        </h2>
+                        <p className="mt-2">
+                          You still need to{" "}
+                          <Link
+                            to="/subscribe/success"
+                            className="text-sky-400 hover:text-sky-500 hover:underline"
+                          >
+                            confirm your email
+                          </Link>{" "}
+                          before you&rsquo;ll start getting the newsletter.
+                        </p>
+                      </>
+                    ) : subscriber.type === "unsubscribed" ? (
+                      <>
+                        <h2 className="text-2xl font-bold">
+                          You&rsquo;re unsubscribed!
+                        </h2>
+                        <p className="mt-2">
+                          Thanks for subscribing to the Moulton newsletter!
+                          You'll be hearing from me soon.
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <h2 className="text-2xl font-bold">
+                          There might be an issue with your subscription
+                        </h2>
+                        <p className="mt-2">
+                          Thanks for subscribing to the Moulton newsletter!
+                          You'll be hearing from me soon.
+                        </p>
+                      </>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div className="relative pl-12">
+                  <SubscribeForm />
+                </div>
+              )}
             </div>
           </div>
         </section>
