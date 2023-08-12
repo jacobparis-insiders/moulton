@@ -1,7 +1,7 @@
 import { PassThrough } from "node:stream"
 
 import type { AppLoadContext, EntryContext } from "@remix-run/node"
-import { Response } from "@remix-run/node"
+import { Response, redirect } from "@remix-run/node"
 import { RemixServer } from "@remix-run/react"
 import isbot from "isbot"
 import { renderToPipeableStream } from "react-dom/server"
@@ -15,6 +15,27 @@ export default function handleRequest(
   remixContext: EntryContext,
   loadContext: AppLoadContext
 ) {
+  const url = new URL(request.url)
+
+  if (
+    url.hostname === "moulton.fly.dev" ||
+    url.hostname === "readmoulton.com"
+  ) {
+    console.info('Redirecting to "www.readmoulton.com"')
+    url.hostname = "www.readmoulton.com"
+    return redirect(url.toString(), {
+      status: 301,
+    })
+  }
+
+  if (url.pathname.endsWith("/") && url.pathname.length > 1) {
+    console.info('Removing trailing "/" from pathname')
+    url.pathname = url.pathname.slice(0, -1)
+    return redirect(url.toString(), {
+      status: 301,
+    })
+  }
+
   return isbot(request.headers.get("user-agent"))
     ? handleBotRequest(
         request,

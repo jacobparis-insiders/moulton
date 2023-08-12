@@ -93,16 +93,24 @@ export async function getSubscriber({ email }: { email: string }) {
         code: "success" as const,
         data: userSchema.parse(response.data),
       }
-    } else {
-      return z
-        .discriminatedUnion("code", [
-          z.object({
-            code: z.literal("not_found"),
-            detail: z.string(),
-          }),
-        ])
-        .parse(response.error)
     }
+
+    return z
+      .discriminatedUnion("code", [
+        z.object({
+          code: z.literal("not_found"),
+          detail: z.string(),
+        }),
+        z.object({
+          code: z.literal("unsubscribed"),
+          detail: z.string(),
+        }),
+        z.object({
+          code: z.literal("timeout"),
+          detail: z.string(),
+        }),
+      ])
+      .parse(response.error)
   } catch (error) {
     console.error("Error getting subscriber", response)
     return {

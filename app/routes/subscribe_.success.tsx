@@ -36,7 +36,7 @@ export async function loader({ request }: LoaderArgs) {
   }
 
   if (subscriber.data.subscriber_type !== "unactivated") {
-    throw redirect("/")
+    throw redirect("/content")
   }
 
   return null

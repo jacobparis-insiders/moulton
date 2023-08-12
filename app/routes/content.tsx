@@ -12,7 +12,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
 
 export async function loader({ request }: LoaderArgs) {
   const content = await getLatestContent()
-  console.log({ content })
+
   if (content.code === "success") {
     return json({
       count: content.data.count,
