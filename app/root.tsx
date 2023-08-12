@@ -116,14 +116,18 @@ function Header() {
           className="relative mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6"
           aria-label="Global"
         >
-          <div className="flex flex-1 items-center">
+          <Link to="/" className="flex items-center gap-x-8">
             <div className="flex w-full items-center justify-between md:w-auto">
-              <Link to="/">
-                <span className="sr-only">Moulton</span>
-                <img className="h-8 w-auto sm:h-10" src="/logo.svg" alt="" />
-              </Link>
+              <span className="sr-only">Moulton</span>
+              <img className="h-8 w-auto sm:h-10" src="/logo.svg" alt="" />
             </div>
-          </div>
+
+            <div className="text-5xl font-extrabold tracking-tight  sm:mt-5">
+              <span className="block bg-gradient-to-r to-teal-200 from-sky-400 bg-clip-text pb-3 text-transparent sm:pb-5">
+                Moulton
+              </span>
+            </div>
+          </Link>
         </nav>
       </div>
     </header>

@@ -20,15 +20,9 @@ export default function Index() {
   return (
     <div className="bg-gray-900  text-white pt-10 sm:pt-16 lg:pt-8 lg:pb-14">
       <div className="mx-auto max-w-7xl px-8">
-        <h1 className="text-4xl font-extrabold tracking-tight  sm:mt-5 sm:text-6xl lg:mt-6 xl:text-6xl">
-          <span className="block bg-gradient-to-r from-teal-200 to-cyan-400 bg-clip-text pb-3 text-transparent sm:pb-5">
-            Moulton
-          </span>
-        </h1>
-
-        <h2 className="text-2xl sm:text-3xl mt-12">
+        <h1 className="text-2xl sm:text-3xl mt-12">
           Keep up on everything new in the Remix Community
-        </h2>
+        </h1>
         <section className="bg-gray-900 mt-12">
           <div className="flex flex-col lg:flex-row lg:justify-between gap-24 max-w-5xl">
             <div className="relative z-10 font-medium">
@@ -89,6 +83,12 @@ export default function Index() {
                           When the next newsletter is ready, it'll be sent to{" "}
                           <strong>{user.email}</strong>
                         </p>
+                        <Link
+                          to="/content"
+                          className="bg-emerald-400 hover:bg-green-500 text-black font-medium px-4 py-2 rounded-md mt-4 inline-block shadow-sm"
+                        >
+                          View subscriber content
+                        </Link>
                       </>
                     ) : subscriber.type === "unactivated" ? (
                       <>

@@ -1,5 +1,6 @@
 import { cachified } from "./cache.server.js"
 import { z } from "zod"
+
 const baseUrl = "https://api.buttondown.email"
 
 const userSchema = z.object({
@@ -143,6 +144,79 @@ export async function resendConfirmationEmail({ email }: { email: string }) {
   if (response.ok) {
     return {
       code: "success" as const,
+    }
+  }
+
+  return {
+    code: "error" as const,
+  }
+}
+
+// "creation_date": "2019-08-24T14:15:22Z",
+// "publish_date": "2024-08-24T14:15:22Z",
+// "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
+// "body": "Lorem ipsum yadda yadda",
+// "subject": "This is my first email on Buttondown!",
+// "excluded_tags": [],
+// "included_tags": [],
+// "email_type": "public",
+// "status": "sent",
+// "metadata": {},
+// "secondary_id": 3,
+// "external_url": "https://buttondown.email/jmduke/my-first-email"
+// }
+
+const emailSchema = z.object({
+  id: z.string(),
+  subject: z.string(),
+  body: z.string(),
+  description: z.string(),
+  creation_date: z.string(),
+  publish_date: z.string().nullable(),
+  email_type: z.string(),
+  status: z.string(),
+  metadata: z.object({}),
+  secondary_id: z.number(),
+  external_url: z.string(),
+})
+
+const emailListSchema = z.object({
+  count: z.number(),
+  results: z.array(emailSchema),
+})
+export async function getLatestContent() {
+  const response = await cachified({
+    key: `latest-content`,
+    ttl: 1000 * 60 * 60 * 12,
+    swr: 1000 * 60 * 60 * 24,
+    async getFreshValue() {
+      return fetchButtondown(`/v1/emails?ordering=-creation_date`, {
+        method: "GET",
+      })
+    },
+  })
+
+  if (response.ok) {
+    return {
+      code: "success" as const,
+      data: emailListSchema.parse(response.data),
+    }
+  }
+
+  return {
+    code: "error" as const,
+  }
+}
+
+export async function getEmail({ id }: { id: string }) {
+  const response = await fetchButtondown(`/v1/emails/${id}`, {
+    method: "GET",
+  })
+
+  if (response.ok) {
+    return {
+      code: "success" as const,
+      data: emailSchema.parse(response.data),
     }
   }
 
