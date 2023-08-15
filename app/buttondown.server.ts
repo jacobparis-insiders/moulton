@@ -137,9 +137,15 @@ export async function upsertSubscriber({
     if (newSub.code === "email_already_exists") {
       throw new Error("Transaction error: email already exists")
     }
-  } else {
-    return sub
+
+    if (newSub.code === "error") {
+      throw new Error("Transaction error: unknown")
+    }
+
+    return newSub
   }
+
+  return sub
 }
 export async function resendConfirmationEmail({ email }: { email: string }) {
   const response = await fetchButtondown(

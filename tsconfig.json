@@ -11,6 +11,7 @@
     "target": "ES2022",
     "strict": true,
     "noImplicitAny": true,
+    "noImplicitReturns": true,
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
