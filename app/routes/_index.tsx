@@ -20,9 +20,34 @@ export default function Index() {
   return (
     <div className="bg-gray-900  text-white pt-10 sm:pt-16 lg:pt-8 lg:pb-14">
       <div className="mx-auto max-w-7xl px-8">
+        <div className="prose prose-invert text-white/80 space-y-5 sm:prose-lg bg-sky-900 px-6 py-4 rounded-lg">
+          <p>
+            The most recent email was sent on <strong>August 13th, 2023</strong>
+            .
+          </p>
+          <ul className="marker:text-white">
+            <li>
+              The email{" "}
+              <strong>
+                did not look right on email clients using dark mode
+              </strong>
+              , this will be fixed in the next issue. You can read the archives
+              by logging into this site with your subscribed email address.{" "}
+            </li>
+            <li>
+              <strong>
+                All third party tracking has been removed for future emails.
+              </strong>{" "}
+              The email service enabled these by default and I didn't notice
+              until after sending out the recent issue.
+            </li>
+          </ul>
+        </div>
+
         <h1 className="text-2xl sm:text-3xl mt-12">
           Keep up on everything new in the Remix Community
         </h1>
+
         <section className="bg-gray-900 mt-12">
           <div className="flex flex-col lg:flex-row lg:justify-between gap-24 max-w-5xl">
             <div className="relative z-10 font-medium">
