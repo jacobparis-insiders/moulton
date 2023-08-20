@@ -1,4 +1,4 @@
-import { cachified } from "./cache.server.js"
+import { cachified, clearKey } from "./cache.server.js"
 import { z } from "zod"
 
 const baseUrl = "https://api.buttondown.email"
@@ -141,6 +141,10 @@ export async function upsertSubscriber({
     if (newSub.code === "error") {
       throw new Error("Transaction error: unknown")
     }
+
+    // TODO: creating a new sub gets the data immediately
+    // We should just replace the cache data at that point
+    clearKey(`subscriber:${email}`)
 
     return newSub
   }

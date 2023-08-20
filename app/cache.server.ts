@@ -11,3 +11,7 @@ export function cachified<Value>(
     ...options,
   })
 }
+
+export function clearKey(key: string) {
+  void lru.delete(key)
+}
