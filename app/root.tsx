@@ -62,7 +62,7 @@ export async function loader({ request }: LoaderArgs) {
 
   const subscriber = await getSubscriber({ email: user.email })
   if (subscriber.code !== "success") {
-    throw authenticator.logout(request, { redirectTo: "/" })
+    return authenticator.logout(request, { redirectTo: "/" })
   }
 
   return json({
