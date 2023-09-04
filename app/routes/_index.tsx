@@ -22,26 +22,9 @@ export default function Index() {
       <div className="mx-auto max-w-7xl px-8">
         <div className="prose prose-invert text-white/80 space-y-5 sm:prose-lg bg-sky-900 px-6 py-4 rounded-lg">
           <p>
-            The most recent email was sent on <strong>August 13th, 2023</strong>
-            .
+            The most recent email was sent on{" "}
+            <strong>September 4th, 2023</strong>.
           </p>
-          <ul className="marker:text-white">
-            <li>
-              The email{" "}
-              <strong>
-                did not look right on email clients using dark mode
-              </strong>
-              , this will be fixed in the next issue. You can read the archives
-              by logging into this site with your subscribed email address.{" "}
-            </li>
-            <li>
-              <strong>
-                All third party tracking has been removed for future emails.
-              </strong>{" "}
-              The email service enabled these by default and I didn't notice
-              until after sending out the recent issue.
-            </li>
-          </ul>
         </div>
 
         <h1 className="text-2xl sm:text-3xl mt-12">
