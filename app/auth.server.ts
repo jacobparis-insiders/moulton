@@ -24,11 +24,13 @@ authenticator.use(
   new FormStrategy(async ({ form }) => {
     const name = form.get("name")?.toString()
     const email = form.get("email")?.toString()
+    const url = form.get("url")?.toString()
     invariant(email, "Email is required")
 
     const sub = await upsertSubscriber({
       email,
       name,
+      url,
     })
     invariant(sub, "Could not create subscriber")
 

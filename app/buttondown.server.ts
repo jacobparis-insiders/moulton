@@ -31,14 +31,17 @@ const userSchema = z.object({
 export async function createSubscriber({
   email,
   name,
+  url,
 }: {
   email: string
   name?: string
+  url?: string
 }) {
   const response = await fetchButtondown(`/v1/subscribers`, {
     method: "post",
     body: JSON.stringify({
       email,
+      referrer_url: url ?? "",
       metadata: {
         name,
       },
@@ -122,9 +125,11 @@ export async function getSubscriber({ email }: { email: string }) {
 export async function upsertSubscriber({
   email,
   name,
+  url,
 }: {
   email: string
   name?: string
+  url?: string
 }) {
   const sub = await getSubscriber({ email: email.toString() })
 
@@ -132,6 +137,7 @@ export async function upsertSubscriber({
     const newSub = await createSubscriber({
       email,
       name,
+      url,
     })
 
     if (newSub.code === "email_already_exists") {
