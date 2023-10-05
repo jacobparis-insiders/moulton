@@ -22,8 +22,8 @@ export default function Index() {
       <div className="mx-auto max-w-7xl px-8">
         <div className="prose prose-invert text-white/80 space-y-5 sm:prose-lg bg-sky-900 px-6 py-4 rounded-lg">
           <p>
-            The most recent email was sent on{" "}
-            <strong>September 4th, 2023</strong>.
+            The most recent email was sent on <strong>October 5th, 2023</strong>
+            .
           </p>
         </div>
 
