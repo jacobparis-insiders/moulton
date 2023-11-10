@@ -25,6 +25,8 @@ import { getSubscriber } from "./buttondown.server.ts"
 
 import type { ShouldRevalidateFunction } from "@remix-run/react"
 import invariant from "tiny-invariant"
+import { honeypot } from "./honeypot.server.ts"
+import { HoneypotProvider } from "remix-utils/honeypot/react"
 
 const title = "Moulton"
 const description = "A Remix Newsletter"
@@ -57,7 +59,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const user = await authenticator.isAuthenticated(request)
 
   if (!user) {
-    return json({ user: null, subscriber: null })
+    return json({
+      user: null,
+      subscriber: null,
+      honeypot: honeypot.getInputProps(),
+    })
   }
 
   const subscriber = await getSubscriber({ email: user.email })
@@ -70,6 +76,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     subscriber: {
       type: subscriber.data.subscriber_type,
     },
+    honeypot: honeypot.getInputProps(),
   })
 }
 
@@ -95,7 +102,9 @@ export default function App() {
           <div className="relative flex min-h-screen flex-col overflow-hidden">
             <Header />
             <main className="flex-1">
-              <Outlet />
+              <HoneypotProvider>
+                <Outlet />
+              </HoneypotProvider>
             </main>
             <Footer />
           </div>

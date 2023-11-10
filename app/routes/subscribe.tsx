@@ -10,9 +10,11 @@ import type {
   LinksFunction,
   LoaderFunctionArgs,
 } from "@remix-run/node"
+import { HoneypotInputs } from "remix-utils/honeypot/react"
 
 import { z } from "zod"
 import { authenticator } from "~/auth.server.ts"
+import { honeypot } from "~/honeypot.server.ts"
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: dotStylesheetHref },
@@ -28,6 +30,9 @@ export function useSubscribeActionData() {
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.clone().formData()
+
+  void honeypot.check(formData)
+
   const submission = await parse(formData, { schema: subscribeSchema })
   if (!submission.value) {
     return json(
@@ -70,6 +75,8 @@ export function SubscribeForm() {
       className="sm:mx-auto lg:mx-0 min-w-[20rem] bg-glass px-8 py-4 border-slate-700 border rounded-lg overflow-hidden"
       {...form.props}
     >
+      <HoneypotInputs label="Please leave this field blank" />
+
       {actionData?.status === "error" ? (
         <div className="bg-black/60 rounded-md px-4 py-2 mb-4 text-neutral-300">
           {actionData.reason === "ALREADY_SUBSCRIBED" ? (
