@@ -2,15 +2,15 @@
 
 import {
   redirect,
-  type LoaderArgs,
+  type LoaderFunctionArgs,
   json,
-  type ActionArgs,
+  type ActionFunctionArgs,
 } from "@remix-run/node"
 import { Form, useActionData } from "@remix-run/react"
 import { authenticator } from "~/auth.server.ts"
 import { getSubscriber, resendConfirmationEmail } from "~/buttondown.server.ts"
 
-export async function action({ request }: ActionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const user = await authenticator.isAuthenticated(request)
 
   if (!user) {
@@ -22,7 +22,7 @@ export async function action({ request }: ActionArgs) {
   return json({ status: "success" as const })
 }
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const user = await authenticator.isAuthenticated(request)
 
   if (!user) {

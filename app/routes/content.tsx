@@ -1,16 +1,20 @@
 // http://localhost:3000/content
 
-import { json, type LoaderArgs, type V2_MetaFunction } from "@remix-run/node"
+import {
+  json,
+  type LoaderFunctionArgs,
+  type MetaFunction,
+} from "@remix-run/node"
 import { Link, useLoaderData } from "@remix-run/react"
 import { getLatestContent } from "~/buttondown.server.ts"
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
+export const meta: MetaFunction<typeof loader> = ({ data }) => [
   {
     title: "Moulton Content Archives",
   },
 ]
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const content = await getLatestContent()
 
   if (content.code === "success") {

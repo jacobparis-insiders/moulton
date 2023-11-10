@@ -5,7 +5,11 @@ import { parse } from "@conform-to/zod"
 import { json, redirect } from "@remix-run/node"
 import { Form, useActionData } from "@remix-run/react"
 import dotStylesheetHref from "~/styles/dot.css"
-import type { ActionArgs, LinksFunction, LoaderArgs } from "@remix-run/node"
+import type {
+  ActionFunctionArgs,
+  LinksFunction,
+  LoaderFunctionArgs,
+} from "@remix-run/node"
 
 import { z } from "zod"
 import { authenticator } from "~/auth.server.ts"
@@ -22,7 +26,7 @@ export function useSubscribeActionData() {
   return useActionData<typeof action>()
 }
 
-export async function action({ request }: ActionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.clone().formData()
   const submission = await parse(formData, { schema: subscribeSchema })
   if (!submission.value) {
@@ -42,7 +46,7 @@ export async function action({ request }: ActionArgs) {
   )
 }
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   return redirect("/")
 }
 

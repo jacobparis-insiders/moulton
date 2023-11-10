@@ -4,8 +4,8 @@ import { cssBundleHref } from "@remix-run/css-bundle"
 import tailwindCssHref from "~/styles/tailwind.css"
 import {
   type LinksFunction,
-  type V2_MetaFunction,
-  type LoaderArgs,
+  type MetaFunction,
+  type LoaderFunctionArgs,
   json,
 } from "@remix-run/node"
 import {
@@ -42,7 +42,7 @@ export const links: LinksFunction = () => [
   },
 ]
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
+export const meta: MetaFunction<typeof loader> = ({ data }) => [
   { title },
   { name: "og:title", content: title },
   { name: "description", content: description },
@@ -53,7 +53,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
   { name: "twitter:site", content: "@readmoulton" },
 ]
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const user = await authenticator.isAuthenticated(request)
 
   if (!user) {

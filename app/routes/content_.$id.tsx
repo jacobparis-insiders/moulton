@@ -3,21 +3,21 @@
 import {
   json,
   redirect,
-  type LoaderArgs,
-  type V2_MetaFunction,
+  type LoaderFunctionArgs,
+  type MetaFunction,
 } from "@remix-run/node"
 import { Link, useLoaderData } from "@remix-run/react"
 import { getEmail } from "~/buttondown.server.ts"
 import { marked } from "marked"
 import { cachified } from "~/cache.server.ts"
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
+export const meta: MetaFunction<typeof loader> = ({ data }) => [
   {
     title: data?.content?.subject,
   },
 ]
 
-export async function loader({ request, params }: LoaderArgs) {
+export async function loader({ request, params }: LoaderFunctionArgs) {
   const id = params.id
   if (!id) {
     throw redirect("/content")
