@@ -200,8 +200,8 @@ const emailSchema = z.object({
   email_type: z.string(),
   status: z.string(),
   metadata: z.object({}),
-  secondary_id: z.number(),
-  external_url: z.string(),
+  secondary_id: z.number().optional(),
+  external_url: z.string().optional(),
 })
 
 const emailListSchema = z.object({
